@@ -10,6 +10,7 @@ import pygame
 import numpy as np
 import time
 import threading
+import os
 
 
 class GameObject:
@@ -41,7 +42,7 @@ class GameObject:
 class Target(GameObject):
     """目标对象"""
     
-    def __init__(self, position, size, color, speed=(0, 0), points=10, target_type="normal"):
+    def __init__(self, position, size, color, speed=(0, 0), points=10, target_type="normal", image=None):
         """
         初始化目标对象
         
@@ -52,6 +53,7 @@ class Target(GameObject):
             speed: 移动速度 (dx, dy)
             points: 击中目标获得的分数
             target_type: 目标类型 ("normal" 或 "bomb")
+            image: 目标图片 (pygame.Surface 对象)
         """
         super().__init__(position, size, color)
         self.speed = speed
@@ -59,6 +61,7 @@ class Target(GameObject):
         self.creation_time = time.time()
         self.lifetime = random.uniform(5.0, 10.0)  # 目标存在的时间（秒）
         self.target_type = target_type  # 目标类型
+        self.image = image  # 目标图片
         
     def update(self, eye_positions=None):
         """
@@ -215,6 +218,9 @@ class GameObjectManager:
         self.eye_beams = [None, None]  # 左右眼持续发射的激光
         self.gaze_point = None  # 注视点
         self.is_firing = False  # 是否正在发射激光
+        self.target_images = []  # 目标图片列表
+        self.bomb_images = []  # 炸弹图片列表
+        self.use_images = True  # 是否使用图片
         
     def setup(self):
         """设置游戏对象管理器"""
@@ -228,6 +234,66 @@ class GameObjectManager:
         self.gaze_point = None
         self.is_firing = False
         
+        # 加载目标图片
+        self.load_target_images()
+        
+    def load_target_images(self):
+        """加载目标图片"""
+        self.target_images = []
+        self.bomb_images = []
+        
+        # 获取图片目录
+        assets_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "assets")
+        images_dir = os.path.join(assets_dir, "images")
+        
+        # 检查目录是否存在
+        if not os.path.exists(images_dir):
+            print(f"图片目录不存在: {images_dir}")
+            self.use_images = False
+            return
+            
+        try:
+            # 加载普通目标图片
+            image_files = [
+                "baoshuixia.png", "gerenxinxi.png", "choujiang.png", 
+                "zhiniaoku.png", "dianzijietiao.png"
+            ]
+            
+            # 加载炸弹图片
+            bomb_files = ["dianlan.png"]
+            
+            # 加载普通目标图片
+            for image_file in image_files:
+                image_path = os.path.join(images_dir, image_file)
+                if os.path.exists(image_path):
+                    try:
+                        image = pygame.image.load(image_path).convert_alpha()
+                        self.target_images.append(image)
+                    except Exception as e:
+                        print(f"加载图片失败: {image_path}, 错误: {e}")
+            
+            # 加载炸弹图片
+            for bomb_file in bomb_files:
+                bomb_path = os.path.join(images_dir, bomb_file)
+                if os.path.exists(bomb_path):
+                    try:
+                        image = pygame.image.load(bomb_path).convert_alpha()
+                        self.bomb_images.append(image)
+                    except Exception as e:
+                        print(f"加载炸弹图片失败: {bomb_path}, 错误: {e}")
+                        
+            # 如果没有加载到任何图片，禁用图片功能
+            if not self.target_images and not self.bomb_images:
+                print("没有加载到任何图片，禁用图片功能")
+                self.use_images = False
+            else:
+                print(f"成功加载 {len(self.target_images)} 个普通目标图片和 {len(self.bomb_images)} 个炸弹图片")
+                self.use_images = True
+                
+        except Exception as e:
+            print(f"加载图片时出错: {e}")
+            self.use_images = False
+            
     def update(self):
         """更新所有游戏对象"""
         game_over = False
@@ -435,8 +501,25 @@ class GameObjectManager:
         # 设置分数（炸弹不给分）
         points = 0 if target_type == "bomb" else int(100 / size * 10)
         
+        # 选择图片
+        target_image = None
+        if self.use_images:
+            if target_type == "normal" and self.target_images:
+                target_image = random.choice(self.target_images)
+            elif target_type == "bomb" and self.bomb_images:
+                target_image = random.choice(self.bomb_images)
+                
+            # 如果有图片，调整大小
+            if target_image:
+                # 保持图片的宽高比，但确保最大尺寸为size*2
+                img_width, img_height = target_image.get_size()
+                scale_factor = min(size * 2 / img_width, size * 2 / img_height)
+                new_width = int(img_width * scale_factor)
+                new_height = int(img_height * scale_factor)
+                target_image = pygame.transform.scale(target_image, (new_width, new_height))
+        
         # 创建目标
-        target = Target(target_position, size, color, speed, points, target_type)
+        target = Target(target_position, size, color, speed, points, target_type, target_image)
         self.targets.append(target)
         
     def create_explosion(self, position, is_bomb=False):

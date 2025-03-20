@@ -114,5 +114,7 @@ venv.bak/
 !assets/*.png
 !assets/*.jpg 
 !assets/sound/*.mp3
+!assets/images/*.png
+!assets/images/*.jpg
 
 Blog_post.md

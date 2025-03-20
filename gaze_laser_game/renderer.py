@@ -179,41 +179,72 @@ class GameRenderer:
         Parameters:
             target: Target object
         """
-        # Draw target circle
-        pygame.draw.circle(
-            self.screen,
-            target.color,
-            (int(target.position[0]), int(target.position[1])),
-            target.size
-        )
-        
-        # Draw target border
-        pygame.draw.circle(
-            self.screen,
-            (255, 255, 255),
-            (int(target.position[0]), int(target.position[1])),
-            target.size,
-            2
-        )
-        
-        # If it's a bomb, draw bomb indicator
-        if target.target_type == "bomb":
-            # Draw bomb fuse
-            pygame.draw.line(
-                self.screen,
-                (255, 255, 0),
-                (int(target.position[0]), int(target.position[1] - target.size)),
-                (int(target.position[0]), int(target.position[1] - target.size * 1.3)),
-                3
-            )
+        # 如果目标有图片，使用图片渲染
+        if target.image:
+            # 获取图片尺寸
+            img_width, img_height = target.image.get_size()
             
-            # Draw bomb spark
+            # 计算图片位置（居中）
+            img_x = int(target.position[0] - img_width / 2)
+            img_y = int(target.position[1] - img_height / 2)
+            
+            # 绘制图片
+            self.screen.blit(target.image, (img_x, img_y))
+            
+            # 如果是炸弹，添加警告标识
+            if target.target_type == "bomb":
+                # 在图片上方绘制警告标识
+                pygame.draw.polygon(
+                    self.screen,
+                    (255, 0, 0),  # 红色
+                    [
+                        (target.position[0], target.position[1] - img_height / 2 - 20),
+                        (target.position[0] - 10, target.position[1] - img_height / 2 - 5),
+                        (target.position[0] + 10, target.position[1] - img_height / 2 - 5)
+                    ]
+                )
+                
+                # 绘制感叹号
+                warning_text = self.font.render("!", True, (255, 255, 255))
+                warning_rect = warning_text.get_rect(center=(target.position[0], target.position[1] - img_height / 2 - 12))
+                self.screen.blit(warning_text, warning_rect)
+        else:
+            # 没有图片时使用原来的圆形渲染
+            # Draw target circle
             pygame.draw.circle(
                 self.screen,
-                (255, 255, 0),
-                (int(target.position[0]), int(target.position[1] - target.size * 1.3)),
-                3
+                target.color,
+                (int(target.position[0]), int(target.position[1])),
+                target.size
             )
+            
+            # Draw target border
+            pygame.draw.circle(
+                self.screen,
+                (255, 255, 255),
+                (int(target.position[0]), int(target.position[1])),
+                target.size,
+                2
+            )
+            
+            # If it's a bomb, draw bomb indicator
+            if target.target_type == "bomb":
+                # Draw bomb fuse
+                pygame.draw.line(
+                    self.screen,
+                    (255, 255, 0),
+                    (int(target.position[0]), int(target.position[1] - target.size)),
+                    (int(target.position[0]), int(target.position[1] - target.size * 1.3)),
+                    3
+                )
+                
+                # Draw bomb spark
+                pygame.draw.circle(
+                    self.screen,
+                    (255, 255, 0),
+                    (int(target.position[0]), int(target.position[1] - target.size * 1.3)),
+                    3
+                )
         
     def _render_laser(self, laser):
         """
