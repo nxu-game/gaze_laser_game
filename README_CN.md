@@ -2,6 +2,8 @@
 
 一个基于眼睛追踪的激光射击游戏，使用MediaPipe进行眼睛位置检测和手势识别。
 
+![眼睛激光游戏演示](https://github.com/wangqiqi/interesting_assets/raw/main/images/gaze_laser_game1.png)
+
 [English Documentation](README.md)
 
 ## 游戏特性

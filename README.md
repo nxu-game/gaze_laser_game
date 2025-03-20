@@ -2,6 +2,8 @@
 
 An eye-tracking based laser shooting game using MediaPipe for eye position detection and gesture recognition.
 
+![Eye Laser Game Demo](https://github.com/wangqiqi/interesting_assets/raw/main/images/gaze_laser_game1.png)
+
 [中文文档](README_CN.md)
 
 ## Game Features
