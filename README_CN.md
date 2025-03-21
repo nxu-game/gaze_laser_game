@@ -106,6 +106,14 @@ pip install -r requirements.txt
 
 这个游戏使用MediaPipe和Pygame开发，利用MediaPipe的Face Mesh模型进行眼睛位置检测和手势识别。游戏包含优化的物理引擎，支持从各个方向接近的目标，以及炫酷的视觉效果。
 
+## 联系方式
+
+如有问题或建议，欢迎通过以下方式联系：
+
+- 微信：znzatop
+
+![微信](https://github.com/wangqiqi/interesting_assets/blob/main/images/wechat.jpg)
+
 ## 许可证
 
 本项目采用GNU通用公共许可证v3.0(GPLv3)。详情请参阅LICENSE文件。 

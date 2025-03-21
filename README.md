@@ -106,6 +106,14 @@ If these files don't exist, the game will still run, just without sounds and bac
 
 This game is developed using MediaPipe and Pygame, utilizing MediaPipe's Face Mesh model for eye position detection and gesture recognition. The game includes an optimized physics engine, supports targets approaching from all directions, and features cool visual effects.
 
+## Contact
+
+If you have any questions or suggestions, feel free to contact me:
+
+- WeChat: znzatop
+
+![WeChat](https://github.com/wangqiqi/interesting_assets/blob/main/images/wechat.jpg)
+
 ## License
 
 This project is licensed under the GNU General Public License v3.0 (GPLv3). See the LICENSE file for details. 
