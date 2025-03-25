@@ -114,6 +114,10 @@ pip install -r requirements.txt
 
 ![微信](https://github.com/wangqiqi/interesting_assets/raw/main/images/wechat.jpg)
 
+## 更多项目
+
+更多有趣的项目请见：https://github.com/wangqiqi/interesting_assets.git
+
 ## 许可证
 
 本项目采用GNU通用公共许可证v3.0(GPLv3)。详情请参阅LICENSE文件。 
