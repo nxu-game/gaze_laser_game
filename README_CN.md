@@ -112,7 +112,7 @@ pip install -r requirements.txt
 
 - 微信：znzatop
 
-![微信](https://github.com/wangqiqi/interesting_assets/blob/main/images/wechat.jpg)
+![微信](https://github.com/wangqiqi/interesting_assets/raw/main/images/wechat.jpg)
 
 ## 许可证
 
