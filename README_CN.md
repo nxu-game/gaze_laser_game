@@ -2,7 +2,7 @@
 
 一个基于眼睛追踪的激光射击游戏，使用MediaPipe进行眼睛位置检测和手势识别。
 
-![眼睛激光游戏演示](https://github.com/wangqiqi/interesting_assets/raw/main/images/gaze_laser_game1.png)
+![眼睛激光游戏演示](https://github.com/nxu-game/interesting_assets/raw/main/images/gaze_laser_game1.png)
 
 [English Documentation](README.md)
 
@@ -112,11 +112,11 @@ pip install -r requirements.txt
 
 - 微信：znzatop
 
-![微信](https://github.com/wangqiqi/interesting_assets/raw/main/images/wechat.jpg)
+![微信](https://github.com/nxu-game/interesting_assets/raw/main/images/wechat.jpg)
 
 ## 更多项目
 
-更多有趣的项目请见：https://github.com/wangqiqi/interesting_assets.git
+更多有趣的项目请见：https://github.com/nxu-game/interesting_assets.git
 
 ## 许可证
 
